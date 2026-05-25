@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.example.pojo.Dept;
 import org.example.pojo.Result;
 import org.example.service.DeptService;

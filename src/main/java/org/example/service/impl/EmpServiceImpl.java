@@ -2,8 +2,10 @@ package org.example.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.example.mapper.EmpExprMapper;
 import org.example.mapper.EmpMapper;
 import org.example.pojo.Emp;
+import org.example.pojo.EmpExpr;
 import org.example.pojo.EmpQueryParam;
 import org.example.pojo.PageResult;
 import org.example.service.EmpService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,6 +22,7 @@ import java.util.List;
 public class EmpServiceImpl implements EmpService {
     @Autowired
     private EmpMapper empMapper;
+    private EmpExprMapper empExprMapper;
 
 //    @Override
 //    public PageResult<Emp> page(Integer page, Integer pageSize){
@@ -34,6 +38,22 @@ public class EmpServiceImpl implements EmpService {
         List<Emp> list = empMapper.list(param);
         Page<Emp> empPage = (Page<Emp>) list;
         return new PageResult<Emp>(empPage.getTotal(), empPage.getResult());
+    }
+
+    @Override
+    public void add(Emp emp) {
+        emp.setCreateTime(LocalDateTime.now());
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.insert(emp);
+        List<EmpExpr> empExprList = emp.getEmpExprList();
+        if (empExprList != null){
+            empExprList.forEach(empExpr -> {
+                empExpr.setEmpId(emp.getId());
+            });
+            empExprMapper.insertBatch(empExprList);
+        }
+
+
     }
 
 }
