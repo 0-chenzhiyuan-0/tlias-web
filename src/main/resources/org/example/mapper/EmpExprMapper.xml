@@ -6,7 +6,7 @@
     <insert id="insertBatch">
         insert into emp_expr(emp_id,job,begin,end,company)
         values
-        <foreach item="expr" collection="empExprList" separator=",">
+        <foreach item="expr" collection="exprList" separator=",">
             (#{expr.empId},#{expr.job},#{expr.begin},#{expr.end},#{expr.company})
         </foreach>
     </insert>

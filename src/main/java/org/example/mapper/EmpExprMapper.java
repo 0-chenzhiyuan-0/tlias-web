@@ -1,12 +1,13 @@
 package org.example.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.example.pojo.Emp;
+
+import org.apache.ibatis.annotations.Mapper;
+
 import org.example.pojo.EmpExpr;
 
 import java.util.List;
-
+@Mapper
 public interface EmpExprMapper {
 
-    void insertBatch(List<EmpExpr> empExprList);
+    void insertBatch(List<EmpExpr> exprList);
 }

@@ -15,13 +15,13 @@ public class Emp {
     private Integer gender;
     private String phone;
     private String image;
-    private String job;
+    private Integer job;
     private Integer salary;
     private Integer deptId;
     private LocalDate entryDate;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private List<EmpExpr> empExprList;
+    private List<EmpExpr> ExprList;
 
     private String deptName;
 }

@@ -22,6 +22,6 @@ public interface EmpMapper {
      List<Emp> list(EmpQueryParam param);
      @Options(useGeneratedKeys = true,keyProperty = "id")
      @Insert("insert into emp(username,name,gender,phone,job,salary,image,dept_id,entry_date,create_time,update_time) " +
-             "values(#{username},#{name},#{gender},#{phone},#{image},#{job},#{salary},#{deptId},#{entryDate},#{createTime},#{updateTime})")
-     List<Emp> insert(Emp emp);
+             "values(#{username},#{name},#{gender},#{phone},#{job},#{salary},#{image},#{deptId},#{entryDate},#{createTime},#{updateTime})")
+     void insert(Emp emp);
 }

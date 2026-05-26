@@ -11,20 +11,23 @@ import org.example.pojo.PageResult;
 import org.example.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.reactive.TransactionalOperator;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-
-
 public class EmpServiceImpl implements EmpService {
     @Autowired
     private EmpMapper empMapper;
+    @Autowired
     private EmpExprMapper empExprMapper;
 
-//    @Override
+
+    //    @Override
 //    public PageResult<Emp> page(Integer page, Integer pageSize){
 //        long total = empMapper.count();
 //        Integer start = (page - 1) * pageSize;
@@ -39,18 +42,18 @@ public class EmpServiceImpl implements EmpService {
         Page<Emp> empPage = (Page<Emp>) list;
         return new PageResult<Emp>(empPage.getTotal(), empPage.getResult());
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public void add(Emp emp) {
+    public void save(Emp emp) {
         emp.setCreateTime(LocalDateTime.now());
         emp.setUpdateTime(LocalDateTime.now());
         empMapper.insert(emp);
-        List<EmpExpr> empExprList = emp.getEmpExprList();
-        if (empExprList != null){
-            empExprList.forEach(empExpr -> {
+        List<EmpExpr> exprList = emp.getExprList();
+        if (!CollectionUtils.isEmpty(exprList)){
+            exprList.forEach(empExpr -> {
                 empExpr.setEmpId(emp.getId());
             });
-            empExprMapper.insertBatch(empExprList);
+            empExprMapper.insertBatch(exprList);
         }
 
 

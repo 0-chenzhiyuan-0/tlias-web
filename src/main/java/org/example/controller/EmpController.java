@@ -23,9 +23,9 @@ public class EmpController {
         return Result.success(pageResult);
     }
     @PostMapping
-    public Result add(@RequestBody Emp emp){
+    public Result save(@RequestBody Emp emp){
         log.info("添加员工信息，参数：emp={}",emp);
-        empService.add(emp);
+        empService.save(emp);
         return  Result.success();
     }
 
