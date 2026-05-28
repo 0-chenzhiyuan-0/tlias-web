@@ -19,3 +19,8 @@ mybatis:
 logging:
   level:
     com.springframework.jdbc.support.JDBCExceptionTranslator: debug
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: czyjavaweb
+    region: cn-beijing
