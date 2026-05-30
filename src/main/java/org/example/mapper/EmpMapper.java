@@ -34,4 +34,7 @@ public interface EmpMapper {
      List<Map<String, Object>> countEmpJobData();
      @MapKey("name")
      List<Map> countEmpGenderData();
+
+     @Select("select id,username,password,name,gender,image,job,salary,entry_date,dept_id,create_time,update_time from emp ")
+     List<Emp> findAll();
 }
