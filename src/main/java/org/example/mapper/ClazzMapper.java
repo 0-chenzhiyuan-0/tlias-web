@@ -5,6 +5,8 @@ import org.example.pojo.Clazz;
 import org.example.pojo.ClazzQueryParam;
 
 import java.util.List;
+import java.util.Map;
+
 @Mapper
 public interface ClazzMapper {
 
@@ -23,4 +25,9 @@ public interface ClazzMapper {
 
     @Delete("delete from clazz where id=#{id}")
     void deleteByClazzId(Integer id);
+
+    @Select("select * from clazz")
+    List<Clazz> findAll();
+
+
 }

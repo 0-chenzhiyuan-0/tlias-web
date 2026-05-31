@@ -4,6 +4,8 @@ import org.example.pojo.Clazz;
 import org.example.pojo.ClazzQueryParam;
 import org.example.pojo.PageResult;
 
+import java.util.List;
+
 
 public interface ClazzService {
 
@@ -16,4 +18,6 @@ public interface ClazzService {
     void update(Clazz clazz);
 
     void deleteById(Integer id);
+
+    List<Clazz> list();
 }

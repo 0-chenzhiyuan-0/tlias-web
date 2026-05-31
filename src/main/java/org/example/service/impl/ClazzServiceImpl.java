@@ -2,13 +2,17 @@ package org.example.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.example.excetion.ClassStudentException;
 import org.example.mapper.ClazzMapper;
+import org.example.mapper.StudentMapper;
 import org.example.pojo.Clazz;
 import org.example.pojo.ClazzQueryParam;
 import org.example.pojo.PageResult;
+import org.example.pojo.Student;
 import org.example.service.ClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +23,8 @@ import java.util.List;
 public class ClazzServiceImpl implements ClazzService {
     @Autowired
     private ClazzMapper clazzMapper;
+    @Autowired
+    private StudentMapper studentMapper;
 
     @Override
     public PageResult<Clazz> page(ClazzQueryParam param){
@@ -53,9 +59,16 @@ public class ClazzServiceImpl implements ClazzService {
         clazz.setUpdateTime(LocalDateTime.now());
         clazzMapper.updateById(clazz);
     }
+    @Transactional
     @Override
     public void deleteById(Integer id) {
+        if (studentMapper.countById(id)>0)
+            throw new ClassStudentException("此班级下还有学生!");
         clazzMapper.deleteByClazzId(id);
+    }
+    @Override
+    public List<Clazz> list(){
+        return clazzMapper.findAll();
     }
 
 }

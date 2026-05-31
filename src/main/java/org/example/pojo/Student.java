@@ -27,5 +27,7 @@ public class Student {
     private Integer violationCount;
     private Integer violationScore;
 
+    private String clazzName;
+
 
 }
