@@ -4,11 +4,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.example.mapper.EmpExprMapper;
 import org.example.mapper.EmpMapper;
-import org.example.pojo.Emp;
-import org.example.pojo.EmpExpr;
-import org.example.pojo.EmpQueryParam;
-import org.example.pojo.PageResult;
+import org.example.pojo.*;
 import org.example.service.EmpService;
+import org.example.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +14,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -86,5 +86,19 @@ public class EmpServiceImpl implements EmpService {
     public List<Emp> list(){
         return empMapper.findAll();
     };
+
+    @Override
+    public LoginInfo login(Emp emp) {
+        Emp empLogin = empMapper.getUsernameAndPassword(emp);
+        if(empLogin != null){
+            Map<String, Object> dataMap = new HashMap<>() ;
+            dataMap.put("id", empLogin.getId());
+            dataMap.put("username", empLogin.getUsername());
+            String jwt = JwtUtils.generateJwt(dataMap);
+            LoginInfo loginInfo = new LoginInfo(empLogin.getId(), empLogin.getUsername(), empLogin.getName(), jwt);
+            return loginInfo;
+        }
+        return null;
+    }
 
 }
