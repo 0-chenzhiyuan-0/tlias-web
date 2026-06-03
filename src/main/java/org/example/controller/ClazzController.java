@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.anno.LogOperation;
 import org.example.pojo.Clazz;
 import org.example.pojo.ClazzQueryParam;
 import org.example.pojo.PageResult;
@@ -23,6 +24,7 @@ public class ClazzController {
         PageResult<Clazz> pageResult = clazzService.page(param);
         return Result.success(pageResult);
     }
+    @LogOperation
     @PostMapping
     public Result save(@RequestBody Clazz clazz){
         log.info("添加班级信息，参数：clazz={}",clazz);
