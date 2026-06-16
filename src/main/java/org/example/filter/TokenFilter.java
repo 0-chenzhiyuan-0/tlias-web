@@ -22,39 +22,37 @@ public class TokenFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
-        //1. 获取请求url。
-        String url = request.getRequestURL().toString();
+        // 使用ServletPath精准获取接口路径
+        String path = request.getServletPath();
 
-        //2. 判断请求url中是否包含login，如果包含，说明是登录操作，放行。
-        if(url.contains("login")){ //登录请求
-            log.info("登录请求 , 直接放行");
+        // 白名单：首页、静态资源、登录接口全部放行，不走token校验
+        boolean pass = "/".equals(path)
+                || "/index.html".equals(path)
+                || path.startsWith("/assets/")
+                || "/favicon.ico".equals(path)
+                || path.equals("/api/login"); // 精准匹配登录接口
+
+        if (pass) {
+            log.info("白名单路径，直接放行：{}", path);
             chain.doFilter(request, response);
             return;
         }
 
-        //3. 获取请求头中的令牌（token）。
+        // 获取token
         String jwt = request.getHeader("token");
-
-        //4. 判断令牌是否存在，如果不存在，返回错误结果（未登录）。
-        if(!StringUtils.hasLength(jwt)){ //jwt为空
-            log.info("获取到jwt令牌为空, 返回错误结果");
+        if (!StringUtils.hasLength(jwt)) {
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             return;
         }
 
-        //5. 解析token，如果解析失败，返回错误结果（未登录）。
         try {
             JwtUtils.parseJWT(jwt);
         } catch (Exception e) {
-            e.printStackTrace();
-            log.info("解析令牌失败, 返回错误结果");
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             return;
         }
 
-        //6. 放行。
-        log.info("令牌合法, 放行");
-        chain.doFilter(request , response);
+        chain.doFilter(request, response);
     }
 
 }

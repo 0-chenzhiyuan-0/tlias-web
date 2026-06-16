@@ -16,7 +16,7 @@ import java.util.UUID;
 public class UploadController {
     @Autowired
     private AliyunOSSOperator aliyunOSSOperator;
-    @PostMapping("/upload")
+    @PostMapping("/api/upload")
     public Result upload(String name,Integer age, MultipartFile file) throws Exception {
         log.info("文件上传开始");
         log.info("文件名：{}",file.getOriginalFilename());

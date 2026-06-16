@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/emps")
+@RequestMapping("/api/emps")
 public class EmpController {
     @Autowired
     private EmpService empService;

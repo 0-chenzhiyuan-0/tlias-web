@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/clazzs")
+@RequestMapping("/api/clazzs")
 public class ClazzController {
     @Autowired
     private ClazzService clazzService;

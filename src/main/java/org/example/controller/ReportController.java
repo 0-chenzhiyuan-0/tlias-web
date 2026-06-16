@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@RequestMapping("/report")
+@RequestMapping("/api/report")
 public class ReportController {
     @Autowired
     private ReportService reportService;

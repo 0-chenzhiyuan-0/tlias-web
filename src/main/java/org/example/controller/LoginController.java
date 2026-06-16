@@ -17,7 +17,7 @@ public class LoginController {
     @Autowired
     private EmpService empService;
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public Result login(@RequestBody Emp emp){
         log.info("员工来登录啦 , {}", emp);
         LoginInfo loginInfo = empService.login(emp);
